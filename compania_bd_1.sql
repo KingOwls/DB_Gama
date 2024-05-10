@@ -266,21 +266,44 @@ INSERT INTO `gama_producto` (`id_gama_producto`, `descripcion`, `descripcion_htm
 ('GAMA002', 'Descripción de la gama de productos 2', '<p>Descripción HTML de la gama de productos 2</p>', 'imagen2.jpg'),
 ('GAMA003', 'Descripción de la gama de productos 3', '<p>Descripción HTML de la gama de productos 3</p>', 'imagen3.jpg');
 
+INSERT INTO `gama_producto` (`id_gama_producto`, `descripcion`, `descripcion_html`, `imagen`) VALUES
+('GAMA004', 'Descripción de la gama de productos 4', '<p>Descripción HTML de la gama de productos 4</p>', 'imagen4.jpg'),
+('GAMA005', 'Descripción de la gama de productos 5', '<p>Descripción HTML de la gama de productos 5</p>', 'imagen5.jpg'),
+('GAMA006', 'Descripción de la gama de productos 6', '<p>Descripción HTML de la gama de productos 6</p>', 'imagen6.jpg');
+
 
 INSERT INTO `producto` (`codigo_producto`, `nombre_producto`, `descripcion`, `cantidad_existente`, `precio_venta`, `gama`, `altura`, `ancho`, `longitud`, `peso`) VALUES
 ('PROD001', 'Producto 1', 'Descripción del producto 1', 100, 49.99, 'GAMA001', 10, 5, 15, 200),
 ('PROD002', 'Producto 2', 'Descripción del producto 2', 150, 99.99, 'GAMA002', 15, 8, 20, 300),
 ('PROD003', 'Producto 3', 'Descripción del producto 3', 200, 149.99, 'GAMA003', 20, 10, 25, 400);
 
+INSERT INTO `producto` (`codigo_producto`, `nombre_producto`, `descripcion`, `cantidad_existente`, `precio_venta`, `gama`, `altura`, `ancho`, `longitud`, `peso`) VALUES
+('PROD004', 'Producto 4', 'Descripción del producto 4', 120, 79.99, 'GAMA004', 12, 6, 18, 250),
+('PROD005', 'Producto 5', 'Descripción del producto 5', 180, 129.99, 'GAMA005', 18, 9, 22, 350),
+('PROD006', 'Producto 6', 'Descripción del producto 6', 220, 179.99, 'GAMA006', 22, 11, 27, 450);
+
+
 INSERT INTO `proveedor` (`id_proveedor`, `nombre_proveedor`, `apellido_proveedor`) VALUES
 (1, 'Proveedor1', 'Apellido1'),
 (2, 'Proveedor2', 'Apellido2'),
 (3, 'Proveedor3', 'Apellido3');
 
+INSERT INTO `proveedor` (`id_proveedor`, `nombre_proveedor`, `apellido_proveedor`) VALUES
+(4, 'Proveedor4', 'Apellido4'),
+(5, 'Proveedor5', 'Apellido5'),
+(6, 'Proveedor6', 'Apellido6');
+
+
 INSERT INTO `proveedor_producto` (`id_proveedor`, `nuevo_precio`, `viejo_precio`, `codigo_producto`) VALUES
 (1, 50.99, 45.99, 'PROD001'),
 (2, 99.99, 89.99, 'PROD002'),
 (3, 149.99, 129.99, 'PROD003');
+
+INSERT INTO `proveedor_producto` (`id_proveedor`, `nuevo_precio`, `viejo_precio`, `codigo_producto`) VALUES
+(4, 75.99, 69.99, 'PROD004'),
+(5, 119.99, 109.99, 'PROD005'),
+(6, 169.99, 149.99, 'PROD006');
+
 
 INSERT INTO `rol` (`nombre_rol`, `mostrarProductos`, `activo`, `creado_en`, `actualizado_en`) VALUES
 ('Administrador', 1, 1, '2023-06-09', '2024-05-09'),
@@ -301,6 +324,15 @@ INSERT INTO `region` (`nombre_region`, `id_pais`) VALUES
 ('Región Nordeste', 2),
 ('Región Central', 3);
 
+INSERT INTO `region` (`nombre_region`, `id_pais`) VALUES
+('Región Oeste', 1),
+('Región Este', 1),
+('Región Occidental', 2),
+('Región Oriental', 2),
+('Región Norte', 3),
+('Región Sur', 3);
+
+
 INSERT INTO `ciudad` (`nombre_ciudad`, `codigo_postal`, `id_region`) VALUES
 ('Buenos Aires', 'C1234', 1),
 ('Sao Paulo', '01000-000', 3),
@@ -313,25 +345,53 @@ INSERT INTO `oficina` (`id_oficina`, `numero_telefono_oficina`, `linea_direccion
 ('OF002', '987654321', 'Avenida Central 456', 'Edificio XYZ, Piso 2', 3, 'OF001'),
 ('OF003', '555555555', 'Carrera 7 123', 'Torre Norte, Piso 5', 4, 'OF002');
 
+INSERT INTO `oficina` (`id_oficina`, `numero_telefono_oficina`, `linea_direccion_1`, `linea_direccion_2`, `id_ciudad`, `id_oficina_principal`) VALUES
+('OF004', '111111111', 'Calle Este 789', NULL, 2, NULL),
+('OF005', '222222222', 'Avenida Sur 456', 'Edificio ABC, Piso 3', 5, 'OF004'),
+('OF006', '333333333', 'Carrera 5 678', 'Torre Sur, Piso 10', 4, 'OF005');
+
+
 INSERT INTO `empleado` (`id_empleado`, `nombre_empleado`, `apellido_empleado`, `segundo_apellido_empleado`, `extension_empleado`, `correo_electronico_empleado`, `id_jefe`, `id_rol`, `activo`, `creado_en`, `actualizado_en`, `id_oficina`) VALUES
-(1, 'Juan', 'Perez', 'Garcia', '123456', 'juan@example.com', NULL, 1, 1, NOW(), NOW(), 'OF001'),
-(2, 'Maria', 'Gomez', 'Lopez', '456789', 'maria@example.com', 1, 2, 1, NOW(), NOW(), 'OF002'),
-(3, 'Carlos', 'Martinez', 'Fernandez', '789123', 'carlos@example.com', 1, 2, 1, NOW(), NOW(), 'OF002');
+(1, 'Juan', 'Perez', 'Garcia', '123456', 'juan@example.com', NULL, 1, 1, '2022-10-15', '2023-03-20', 'OF001'),
+(2, 'Maria', 'Gomez', 'Lopez', '456789', 'maria@example.com', 1, 2, 1, '2022-09-20', '2023-04-25', 'OF002'),
+(3, 'Carlos', 'Martinez', 'Fernandez', '789123', 'carlos@example.com', 1, 2, 1, '2022-09-20', '2023-04-25', 'OF002');
+
+INSERT INTO `empleado` (`id_empleado`, `nombre_empleado`, `apellido_empleado`, `segundo_apellido_empleado`, `extension_empleado`, `correo_electronico_empleado`, `id_jefe`, `id_rol`, `activo`, `creado_en`, `actualizado_en`, `id_oficina`) VALUES
+(4, 'Ana', 'Lopez', 'Sánchez', '987654', 'ana@example.com', 2, 3, 1, '2022-08-10', '2023-02-15', 'OF001'),
+(5, 'Pedro', 'Rodriguez', 'Diaz', '654321', 'pedro@example.com', 2, 3, 1, '2022-07-05', '2023-01-10', 'OF002'),
+(6, 'Laura', 'Hernandez', 'Gutierrez', '321987', 'laura@example.com', 3, 2, 1, '2022-06-15', '2022-12-20', 'OF003');
 
 INSERT INTO `cliente` (`id_cliente`, `nombre_cliente`, `apellido_cliente`, `limite_credito`, `id_empleado`, `correo_electronico_cliente`) VALUES
 (1, 'Pedro', 'Gonzalez', 1000.00, 1, 'pedro@example.com'),
 (2, 'Ana', 'Lopez', 1500.00, 2, 'ana@example.com'),
 (3, 'Javier', 'Martinez', 2000.00, 3, 'javier@example.com');
 
+INSERT INTO `cliente` (`id_cliente`, `nombre_cliente`, `apellido_cliente`, `limite_credito`, `id_empleado`, `correo_electronico_cliente`) VALUES
+(4, 'Laura', 'Gomez', 1200.00, 4, 'laura@example.com'),
+(5, 'Carlos', 'Rodriguez', 1800.00, 5, 'carlos@example.com'),
+(6, 'Sofia', 'Diaz', 2200.00, 6, 'sofia@example.com');
+
+
 INSERT INTO `direccion` (`id_direccion`, `linea_direccion_1`, `linea_direccion_2`, `tipo_direccion`, `id_ciudad`, `id_proveedor`, `id_cliente`, `id_empleado`) VALUES
 (1, 'Calle Principal 123', 'Colonia Centro', 'Residencial', 1, NULL, 1, NULL),
 (2, 'Avenida Secundaria 456', NULL, 'Oficina', 2, NULL, NULL, 2),
 (3, 'Calle Secundaria 789', NULL, 'Oficina', 3, NULL, NULL, 3);
 
+INSERT INTO `direccion` (`id_direccion`, `linea_direccion_1`, `linea_direccion_2`, `tipo_direccion`, `id_ciudad`, `id_proveedor`, `id_cliente`, `id_empleado`) VALUES
+(4, 'Calle Principal Norte 123', 'Urbanización Los Pinos', 'Residencial', 1, NULL, 4, NULL),
+(5, 'Avenida Central 456', 'Edificio ABC, Piso 3', 'Oficina', 2, NULL, NULL, 5),
+(6, 'Carrera 7 Este 789', NULL, 'Oficina', 3, NULL, NULL, 6);
+
+
 INSERT INTO `contacto_cliente` (`id_contacto_cliente`, `nombre`, `apellido`, `tipo_contacto_cliente`, `id_cliente`) VALUES
 (1, 'Juan', 'Pérez', 'Principal', 1),
 (2, 'María', 'Gómez', 'Secundario', 2),
 (3, 'Carlos', 'Martínez', 'Principal', 3);
+INSERT INTO `contacto_cliente` (`id_contacto_cliente`, `nombre`, `apellido`, `tipo_contacto_cliente`, `id_cliente`) VALUES
+(4, 'Laura', 'García', 'Secundario', 4),
+(5, 'Pedro', 'Rodríguez', 'Principal', 5),
+(6, 'Sofía', 'Díaz', 'Principal', 6);
+
 
 -- Insertar datos para oficinas
 INSERT INTO `numero_telefono` (`numero_telefono`, `prefijo_numero_telefono`, `tipo_numero_telefono`, `quien_es`, `id_oficina`)
@@ -339,24 +399,42 @@ VALUES
   ('1234567890', '+1', 'Oficina', 'Juan', 'OF001'),
   ('9876543210', '+1', 'Oficina', 'Maria', 'OF002');
 
+INSERT INTO `numero_telefono` (`numero_telefono`, `prefijo_numero_telefono`, `tipo_numero_telefono`, `quien_es`, `id_oficina`)
+VALUES 
+  ('5555555555', '+1', 'Oficina', 'Carlos', 'OF002'),
+  ('1111111111', '+1', 'Oficina', 'Laura', 'OF006');
+  
 -- Insertar datos para empleados
 INSERT INTO `numero_telefono` (`numero_telefono`, `prefijo_numero_telefono`, `tipo_numero_telefono`, `quien_es`, `id_empleado`)
 VALUES 
-  ('5555555555', '+1', 'Personal', 'Pedro', 1),
-  ('7777777777', '+1', 'Trabajo', 'Luis', 2);
+  ('5555555555', '+1', 'Personal', 'Juan', 1),
+  ('6666666666', '+1', 'Trabajo', 'Maria', 2),
+  ('7777777777', '+1', 'Trabajo', 'Carlos', 3),
+  ('8888888888', '+1', 'Personal', 'Ana', 4),
+  ('9999999999', '+1', 'Personal', 'Pedro', 5),
+  ('1010101010', '+1', 'Personal', 'Laura', 6);
+
 
 -- Insertar datos para proveedores
 INSERT INTO `numero_telefono` (`numero_telefono`, `prefijo_numero_telefono`, `tipo_numero_telefono`, `quien_es`, `id_proveedor`)
 VALUES 
   ('9999999999', '+1', 'Oficina', 'Proveedor1', 1),
   ('8888888888', '+1', 'Oficina', 'Proveedor2', 2);
+INSERT INTO `numero_telefono` (`numero_telefono`, `prefijo_numero_telefono`, `tipo_numero_telefono`, `quien_es`, `id_proveedor`)
+VALUES 
+  ('2222222222', '+1', 'Personal', 'Proveedor3', 3),
+  ('3333333333', '+1', 'Oficina', 'Proveedor4', 4);
 
 
 -- Insertar datos para contactos de clientes
 INSERT INTO `numero_telefono` (`numero_telefono`, `prefijo_numero_telefono`, `tipo_numero_telefono`, `quien_es`, `id_contacto_cliente`)
 VALUES 
   ('1111111111', '+1', 'Personal', 'Cliente1', 1),
-  ('2222222222', '+1', 'Trabajo', 'Cliente2', 02);
+  ('2222222222', '+1', 'Trabajo', 'Cliente2', 2);
+INSERT INTO `numero_telefono` (`numero_telefono`, `prefijo_numero_telefono`, `tipo_numero_telefono`, `quien_es`, `id_contacto_cliente`)
+VALUES 
+  ('3333333333', '+1', 'Personal', 'Cliente3', 3),
+  ('4444444444', '+1', 'Trabajo', 'Cliente4', 4);
 
 
 INSERT INTO `pedido` (`codigo_pedido`, `fecha_pedido`, `fecha_espera`, `fecha_entrega`, `comentarios`, `estado`, `id_cliente`) 
@@ -366,11 +444,25 @@ VALUES
 (3, '2024-04-14', '2024-04-19', NULL, 'Pedido especial', 'Pendiente', 3),
 (4, '2024-01-10', '2024-04-15', '2024-05-02', 'Pedido urgente', 'En proceso', 3);
 
+INSERT INTO `pedido` (`codigo_pedido`, `fecha_pedido`, `fecha_espera`, `fecha_entrega`, `comentarios`, `estado`, `id_cliente`) 
+VALUES
+(6, '2024-05-20', '2024-06-25', NULL, 'Pedido urgente', 'Pendiente', 4),
+(7, '2024-06-15', '2024-06-30', NULL, 'Pedido estándar', 'Pendiente', 5),
+(8, '2024-07-18', '2024-08-10', NULL, 'Pedido especial', 'Pendiente', 6),
+(9, '2024-08-10', '2024-09-05', '2024-09-20', 'Pedido urgente', 'Entregado', 4);
+
 INSERT INTO `detalle_pedido` (`cantidad`, `precio_unitario`, `numero_linea`, `codigo_pedido`, `codigo_producto`) VALUES
 (5, 10.99, 1, 1, 'PROD001'),
 (3, 8.50, 2, 2, 'PROD002'),
 (2, 15.75, 3, 3, 'PROD003'),
 (1, 20.00, 4, 4,'PROD003');
+
+INSERT INTO `detalle_pedido` (`cantidad`, `precio_unitario`, `numero_linea`, `codigo_pedido`, `codigo_producto`) VALUES
+(4, 12.75, 5, 6, 'PROD004'),
+(2, 9.99, 6, 7, 'PROD005'),
+(3, 18.50, 7, 8, 'PROD006'),
+(6, 22.00, 8, 9, 'PROD005');
+
 
 INSERT INTO `pago` (`id_transaccion`, `fecha_pago`, `total`, `metodo_pago`, `id_cliente`) VALUES
 ('TRANS001', '2024-05-09', 100.00, 'Tarjeta de crédito', 1),
