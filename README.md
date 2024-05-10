@@ -130,6 +130,78 @@ ORDER BY
 | Pendiente  |              2 |
 +------------+----------------+
 ```
+8. Consulta para obtener el detalle de un pedido específico, incluyendo los productos solicitados
+```
+SELECT 
+    p.codigo_pedido,
+    p.fecha_pedido,
+    p.fecha_espera,
+    p.fecha_entrega,
+    p.comentarios,
+    p.estado,
+    c.nombre_cliente,
+    c.apellido_cliente,
+    dp.cantidad,
+    dp.precio_unitario,
+    dp.numero_linea,
+    pr.nombre_producto,
+    pr.descripcion
+FROM 
+    pedido p
+INNER JOIN 
+    cliente c ON p.id_cliente = c.id_cliente
+INNER JOIN 
+    detalle_pedido dp ON p.codigo_pedido = dp.codigo_pedido
+INNER JOIN 
+    producto pr ON dp.codigo_producto = pr.codigo_producto
+WHERE 
+    p.codigo_pedido = 1;
+
++---------------+--------------+--------------+---------------+----------------+------------+----------------+------------------+----------+-----------------+--------------+-----------------+-----------------------------+
+| codigo_pedido | fecha_pedido | fecha_espera | fecha_entrega | comentarios    | estado     | nombre_cliente | apellido_cliente | cantidad | precio_unitario | numero_linea | nombre_producto | descripcion                 |
++---------------+--------------+--------------+---------------+----------------+------------+----------------+------------------+----------+-----------------+--------------+-----------------+-----------------------------+
+|             1 | 2024-02-10   | 2024-04-15   | 2024-05-02    | Pedido urgente | En proceso | Pedro          | Gonzalez         |        5 |              11 |            1 | Producto 1      | Descripción del producto 1  |
++---------------+--------------+--------------+---------------+----------------+------------+----------------+------------------+----------+-----------------+--------------+-----------------+-----------------------------
+```
+9. Consulta para obtener el nombre del empleado que realizó un pedido y su correo electrónico:
+```
+SELECT 
+    nt.numero_telefono,
+    nt.prefijo_numero_telefono,
+    nt.quien_es
+FROM 
+    numero_telefono nt
+INNER JOIN 
+    proveedor p ON nt.id_proveedor = p.id_proveedor
+WHERE 
+    p.nombre_proveedor = 'Proveedor1';
+
++-----------------+-------------------------+------------+
+| numero_telefono | prefijo_numero_telefono | quien_es   |
++-----------------+-------------------------+------------+
+| 9999999999      | +1                      | Proveedor1 |
++-----------------+-------------------------+------------+
+```
+10. Consulta para obtener el detalle de un pedido específico, incluyendo los productos solicitados
+```
+SELECT 
+    e.nombre_empleado,
+    e.apellido_empleado,
+    e.correo_electronico_empleado
+FROM 
+    empleado e
+INNER JOIN 
+    cliente c ON e.id_empleado = c.id_empleado
+INNER JOIN 
+    pedido p ON c.id_cliente = p.id_cliente
+WHERE 
+    p.codigo_pedido = 1;
++-----------------+-------------------+-----------------------------+
+| nombre_empleado | apellido_empleado | correo_electronico_empleado |
++-----------------+-------------------+-----------------------------+
+| Juan            | Perez             | juan@example.com            |
++-----------------+-------------------+-----------------------------+
+```
 
 Debe generar 10 procedimientos almacenados por cada base de datos. Los procedimientos deben incluir procesos de Crear, Actualizar, eliminar o buscar.
 
