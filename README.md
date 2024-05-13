@@ -329,3 +329,22 @@ BEGIN
 END //
 DELIMITER ;
 ```
+2. Devuelve un listado con el nombre, apellidos y puesto de aquellos empleados que no sean representantes de ventas.
+
+```
+SELECT 
+    c.nombre_ciudad AS ciudad,
+    nt.numero_telefono AS telefono
+FROM 
+    ciudad c
+INNER JOIN 
+    region r ON c.id_region = r.id_region
+INNER JOIN 
+    pais p ON r.id_pais = p.id_pais
+INNER JOIN 
+    oficina o ON c.id_ciudad = o.id_ciudad
+INNER JOIN 
+    numero_telefono nt ON o.id_oficina = nt.id_oficina
+WHERE 
+    p.nombre_pais = 'España';
+```
