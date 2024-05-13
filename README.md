@@ -602,63 +602,126 @@ WHERE limite_credito > (
 +----------------+----------------+
 ```
 
-5. Devuelve el producto que más unidades tiene en stock.
-6. Devuelve el producto que menos unidades tiene en stock.
-7. Devuelve el nombre, los apellidos y el email de los empleados que están a
-cargo de Alberto Soria.
-Subconsultas con ALL y ANY
-8. Devuelve el nombre del cliente con mayor límite de crédito.
-9. Devuelve el nombre del producto que tenga el precio de venta más caro.
-10. Devuelve el producto que menos unidades tiene en stock.
+Devuelve el producto que más unidades tiene en stock.
+```
+SELECT 
+    p.codigo_producto,
+    p.nombre_producto,
+    SUM(dp.cantidad) AS total_unidades_vendidas
+FROM 
+    detalle_pedido dp
+JOIN 
+    producto p ON dp.codigo_producto = p.codigo_producto
+GROUP BY 
+    p.codigo_producto, p.nombre_producto
+ORDER BY 
+    total_unidades_vendidas DESC
+LIMIT 1;
+
++-----------------+-----------------+-------------------------+
+| codigo_producto | nombre_producto | total_unidades_vendidas |
++-----------------+-----------------+-------------------------+
+| PROD005         | Producto 5      |                       8 |
++-----------------+-----------------+-------------------------+
+```
+Devuelve el producto que menos unidades tiene en stock.
+```
+SELECT 
+    p.codigo_producto,
+    p.nombre_producto,
+    SUM(dp.cantidad) AS total_unidades_vendidas
+FROM 
+    detalle_pedido dp
+JOIN 
+    producto p ON dp.codigo_producto = p.codigo_producto
+GROUP BY 
+    p.codigo_producto, p.nombre_producto
+ORDER BY 
+    total_unidades_vendidas ASC
+LIMIT 1;
+
++-----------------+-----------------+-------------------------+
+| codigo_producto | nombre_producto | total_unidades_vendidas |
++-----------------+-----------------+-------------------------+
+| PROD006         | Producto 6      |                       3 |
++-----------------+-----------------+-------------------------+
+```
+Devuelve el nombre del cliente con mayor límite de crédito.
+```
+SELECT nombre_cliente
+FROM cliente
+ORDER BY limite_credito DESC
+LIMIT 1;
+
++----------------+
+| nombre_cliente |
++----------------+
+| Sofia          |
++----------------+
+```
+Devuelve el nombre del producto que tenga el precio de venta más caro.
+```
+SELECT nombre_producto
+FROM producto
+ORDER BY precio_venta DESC
+LIMIT 1;
+
++-----------------+
+| nombre_producto |
++-----------------+
+| Producto 6      |
++-----------------+
+```
+14. Devuelve el producto que menos unidades tiene en stock.
 Subconsultas con IN y NOT IN
-11. Devuelve el nombre, apellido1 y cargo de los empleados que no
-representen a ningún cliente.
-12. Devuelve un listado que muestre solamente los clientes que no han
+```
+SELECT nombre_producto
+FROM producto
+WHERE cantidad_existente IN (
+    SELECT MIN(cantidad_existente)
+    FROM producto
+);
++-----------------+
+| nombre_producto |
++-----------------+
+| Producto 1      |
++-----------------+
+```
+Devuelve un listado que muestre solamente los clientes que no han
 realizado ningún pago.
-13. Devuelve un listado que muestre solamente los clientes que sí han realizado
-algún pago.
-14. Devuelve un listado de los productos que nunca han aparecido en un
-pedido.
-15. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos
-empleados que no sean representante de ventas de ningún cliente.
-16. Devuelve las oficinas donde no trabajan ninguno de los empleados que
-hayan sido los representantes de ventas de algún cliente que haya realizado
-la compra de algún producto de la gama Frutales.
-17. Devuelve un listado con los clientes que han realizado algún pedido pero no
+```
+SELECT *
+FROM cliente
+WHERE id_cliente NOT IN (
+    SELECT DISTINCT id_cliente
+    FROM pago
+);
+
++------------+----------------+------------------+----------------+-------------+----------------------------+
+| id_cliente | nombre_cliente | apellido_cliente | limite_credito | id_empleado | correo_electronico_cliente |
++------------+----------------+------------------+----------------+-------------+----------------------------+
+|          4 | Laura          | Gomez            |           1200 |           4 | laura@example.com          |
+|          5 | Carlos         | Rodriguez        |           1800 |           5 | carlos@example.com         |
+|          6 | Sofia          | Diaz             |           2200 |           6 | sofia@example.com          |
++------------+----------------+------------------+----------------+-------------+----------------------------+
+```
+Devuelve un listado con los clientes que han realizado algún pedido pero no
 han realizado ningún pago.
-18.
-
-Subconsultas con EXISTS y NOT EXISTS
-18. Devuelve un listado que muestre solamente los clientes que no han
-realizado ningún pago.
-19. Devuelve un listado que muestre solamente los clientes que sí han realizado
-algún pago.
-20. Devuelve un listado de los productos que nunca han aparecido en un
-pedido.
-21. Devuelve un listado de los productos que han aparecido en un pedido
-alguna vez.
-Subconsultas correlacionadas
-Consultas variadas
-1. Devuelve el listado de clientes indicando el nombre del cliente y cuántos
-pedidos ha realizado. Tenga en cuenta que pueden existir clientes que no
-han realizado ningún pedido.
-2. Devuelve un listado con los nombres de los clientes y el total pagado por
-cada uno de ellos. Tenga en cuenta que pueden existir clientes que no han
-realizado ningún pago.
-3. Devuelve el nombre de los clientes que hayan hecho pedidos en 2008
-ordenados alfabéticamente de menor a mayor.
-4. Devuelve el nombre del cliente, el nombre y primer apellido de su
-representante de ventas y el número de teléfono de la oficina del
-representante de ventas, de aquellos clientes que no hayan realizado ningún
-pago.
-5. Devuelve el listado de clientes donde aparezca el nombre del cliente, el
-nombre y primer apellido de su representante de ventas y la ciudad donde
-está su oficina.
-6. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos
-empleados que no sean representante de ventas de ningún cliente.
-
-7. Devuelve un listado indicando todas las ciudades donde hay oficinas y el
-número de empleados que tiene.
+```
+SELECT *
+FROM cliente
+WHERE id_cliente NOT IN (
+    SELECT DISTINCT id_cliente
+    FROM pago
+);
++------------+----------------+------------------+----------------+-------------+----------------------------+
+| id_cliente | nombre_cliente | apellido_cliente | limite_credito | id_empleado | correo_electronico_cliente |
++------------+----------------+------------------+----------------+-------------+----------------------------+
+|          4 | Laura          | Gomez            |           1200 |           4 | laura@example.com          |
+|          5 | Carlos         | Rodriguez        |           1800 |           5 | carlos@example.com         |
+|          6 | Sofia          | Diaz             |           2200 |           6 | sofia@example.com          |
++------------+----------------+------------------+----------------+-------------+----------------------------+
+```   
 Debe generar 10 procedimientos almacenados por cada base de datos. Los procedimientos deben incluir procesos de Crear, Actualizar, eliminar o buscar.
 
 1. Procedimiento para crear una nueva gama de producto:
